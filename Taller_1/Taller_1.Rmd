@@ -1,0 +1,84 @@
+---
+title: "Control charts"
+output: html_notebook
+---
+
+## Lectura de librerías
+```{r eval=FALSE, include=FALSE}
+install.packages("qcc")
+```
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+library(readxl)
+library(qcc)
+library(tidyverse)
+```
+
+
+# Ejercicio 5.13
+
+## Literal a
+
+### Carta X-barra
+```{r}
+tabla5.13a <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f1")
+xbar_chart <- qcc(data = tabla5.13a,
+                   type = "xbar",
+                   sizes = 5,
+                   title = "Carta X-barra datos de compresión", 
+                   digits = 2, 
+                   plot = TRUE)
+```
+
+```{r}
+xbar_chart
+```
+
+## Literal b
+
+### Lectura de datos
+```{r}
+tabla5.13b <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f2")
+xbar_chart2 <- qcc(data = tabla5.13b,
+                   type = "xbar",
+                   sizes = 5,
+                   title = "Carta X-barra datos de compresión adicionales", 
+                   digits = 2, 
+                   plot = TRUE)
+```
+
+```{r}
+xbar_chart2
+```
+
+# Ejercicio 5.48
+
+## Creación de la carta x-barra de los datos
+
+```{r}
+tabla5.48 <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.48")
+
+xbar_chart3 <- qcc(data = tabla5.48, 
+    type = "xbar.one", # Tipo de carta (para qcc es conocida como n = 1)
+    plot = TRUE) 
+```
+
+```{r}
+xbar_chart3
+```
+
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
