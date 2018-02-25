@@ -86,3 +86,24 @@ viscosidad.mr <- qcc(viscosidad.raw.r, type="R", plot = TRUE)
 ```{r}
 viscosidad.mr
 ```
+
+# Ejercicio 5.49
+
+## Creación de las cartas x-barra y R de los datos agregados
+
+```{r}
+attach(tabla5.48)
+viscosidad.raw <- tabla5.48$viscosidad
+viscosidad.raw <- c(viscosidad.raw, 3163, 3199, 3054, 3147, 3156)
+#' Create the individuals chart and qcc object
+viscosidad.x <- qcc(viscosidad.raw, type = "xbar.one", plot = TRUE)
+#' Create the moving range chart and qcc object. qcc takes a two-column matrix
+#' that is used to calculate the moving range.
+viscosidad.raw.r <- matrix(cbind(viscosidad.raw[1:length(viscosidad.raw)-1], viscosidad.raw[2:length(viscosidad.raw)]), ncol=2)
+viscosidad.mr <- qcc(viscosidad.raw.r, type="R", plot = TRUE)
+```
+
+
+```{r}
+viscosidad.mr
+```
