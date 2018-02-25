@@ -22,6 +22,7 @@ library(tidyverse)
 ### Carta X-barra
 ```{r}
 tabla5.13a <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f1")
+tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
 xbar_chart <- qcc(data = tabla5.13a,
                    type = "xbar",
                    sizes = 5,
@@ -39,6 +40,7 @@ xbar_chart
 ### Lectura de datos
 ```{r}
 tabla5.13b <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f2")
+tabla5.13b <- tabla5.13b %>% select(x1,x2,x3,x4,x5)
 xbar_chart2 <- qcc(data = tabla5.13b,
                    type = "xbar",
                    sizes = 5,
@@ -67,4 +69,20 @@ xbar_chart3 <- qcc(data = viscosidad,
 xbar_chart3
 ```
 
+## Creación de la carta R de los datos
 
+```{r}
+attach(tabla5.48)
+viscosidad.raw <- tabla5.48$viscosidad
+#' Create the individuals chart and qcc object
+viscosidad.x <- qcc(viscosidad.raw, type = "xbar.one", plot = TRUE)
+#' Create the moving range chart and qcc object. qcc takes a two-column matrix
+#' that is used to calculate the moving range.
+viscosidad.raw.r <- matrix(cbind(viscosidad.raw[1:length(viscosidad.raw)-1], viscosidad.raw[2:length(viscosidad.raw)]), ncol=2)
+viscosidad.mr <- qcc(viscosidad.raw.r, type="R", plot = TRUE)
+```
+
+
+```{r}
+viscosidad.mr
+```
