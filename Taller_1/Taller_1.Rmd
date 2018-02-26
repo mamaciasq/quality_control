@@ -19,11 +19,23 @@ library(tidyverse)
 
 ## Literal a
 
+## Carta R
+
+```{r}
+tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
+r_f1 <- qcc(data = tabla5.13a,
+                   type = "R",
+                   sizes = 5,
+                   title = "Carta R datos de compresión", 
+                   digits = 2, 
+                   plot = TRUE)
+```
+
 ### Carta X-barra
 ```{r}
 tabla5.13a <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f1")
 tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
-xbar_chart <- qcc(data = tabla5.13a,
+xbar_f1 <- qcc(data = tabla5.13a,
                    type = "xbar",
                    sizes = 5,
                    title = "Carta X-barra datos de compresión", 
@@ -31,17 +43,25 @@ xbar_chart <- qcc(data = tabla5.13a,
                    plot = TRUE)
 ```
 
-```{r}
-xbar_chart
-```
 
 ## Literal b
 
-### Lectura de datos
+### Carta R
 ```{r}
-tabla5.13b <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f2")
-tabla5.13b <- tabla5.13b %>% select(x1,x2,x3,x4,x5)
-xbar_chart2 <- qcc(data = tabla5.13b,
+tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
+r_f2 <- qcc(data = tabla5.13a[-9,],
+                   type = "R",
+                   sizes = 5,
+                   title = "Carta R datos de compresión controlada", 
+                   digits = 2, 
+                   plot = TRUE)
+```
+
+
+### Carta x-bar
+```{r}
+tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
+xbar_f2 <- qcc(data = tabla5.13a[-9,],
                    type = "xbar",
                    sizes = 5,
                    title = "Carta X-barra datos de compresión adicionales", 
@@ -49,9 +69,32 @@ xbar_chart2 <- qcc(data = tabla5.13b,
                    plot = TRUE)
 ```
 
+## Monitoreo en línea (Fase 2)
+
 ```{r}
-xbar_chart2
+tabla5.13b <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f2")
+tabla5.13b <- tabla5.13b %>% select(x1,x2,x3,x4,x5)
+variabilidad <- qcc(data = tabla5.13b,
+                    sizes = 5,
+                    type = "R",
+                    center = r_f2$center,
+                    limits = r_f2$limits,
+                    std.dev = r_f2$std.dev,
+                    plot = TRUE)
 ```
+
+
+```{r}
+tabla5.13b <- tabla5.13b %>% select(x1,x2,x3,x4,x5)
+variabilidad <- qcc(data = tabla5.13b,
+                    sizes = 5,
+                    type = "xbar",
+                    center = xbar_f2$center,
+                    limits = xbar_f2$limits,
+                    std.dev = xbar_f2$std.dev,
+                    plot = TRUE)
+```
+
 
 # Ejercicio 5.48
 
