@@ -26,7 +26,7 @@ tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
 r_f1 <- qcc(data = tabla5.13a,
                    type = "R",
                    sizes = 5,
-                   title = "Carta R datos de compresión", 
+                   title = "Carta R datos de compresión (Fase 1)", 
                    digits = 2, 
                    plot = TRUE)
 ```
@@ -38,7 +38,7 @@ tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
 xbar_f1 <- qcc(data = tabla5.13a,
                    type = "xbar",
                    sizes = 5,
-                   title = "Carta X-barra datos de compresión", 
+                   title = "Carta X-bar datos de compresión (Fase 1)", 
                    digits = 2, 
                    plot = TRUE)
 ```
@@ -52,7 +52,7 @@ tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
 r_f2 <- qcc(data = tabla5.13a[-9,],
                    type = "R",
                    sizes = 5,
-                   title = "Carta R datos de compresión controlada", 
+                   title = "Carta R datos de compresión (bajo control)", 
                    digits = 2, 
                    plot = TRUE)
 ```
@@ -64,7 +64,7 @@ tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
 xbar_f2 <- qcc(data = tabla5.13a[-9,],
                    type = "xbar",
                    sizes = 5,
-                   title = "Carta X-barra datos de compresión adicionales", 
+                   title = "Carta X-bar datos de compresión (bajo control)", 
                    digits = 2, 
                    plot = TRUE)
 ```
@@ -77,6 +77,7 @@ tabla5.13b <- tabla5.13b %>% select(x1,x2,x3,x4,x5)
 variabilidad <- qcc(data = tabla5.13b,
                     sizes = 5,
                     type = "R",
+                    title = "Carta R datos de compresión adicionales", 
                     center = r_f2$center,
                     limits = r_f2$limits,
                     std.dev = r_f2$std.dev,
@@ -89,6 +90,7 @@ tabla5.13b <- tabla5.13b %>% select(x1,x2,x3,x4,x5)
 variabilidad <- qcc(data = tabla5.13b,
                     sizes = 5,
                     type = "xbar",
+                    title = "Carta X-bar datos de compresión adicionales", 
                     center = xbar_f2$center,
                     limits = xbar_f2$limits,
                     std.dev = xbar_f2$std.dev,
@@ -98,19 +100,29 @@ variabilidad <- qcc(data = tabla5.13b,
 
 # Ejercicio 5.48
 
-## Creación de la carta x-barra de los datos
+## Verificando la distribución de los datos
 
 ```{r}
 tabla5.48 <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.48")
+
+tabla5.48$viscosidad %>% density() %>% plot()
+ggplot(tabla5.48, aes(viscosidad)) + geom_density()
+shapiro.test(tabla5.48$viscosidad)
+qqnorm(tabla5.48$viscosidad)
+qqline(tabla5.48$viscosidad, col=2)
+```
+
+
+## Creación de la carta x-bar de los datos
+
+```{r}
+
 viscosidad <-tabla5.48 %>% select(viscosidad)
 xbar_chart3 <- qcc(data = viscosidad, 
     type = "xbar.one", # Tipo de carta (para qcc es conocida como n = 1)
     plot = TRUE) 
 ```
 
-```{r}
-xbar_chart3
-```
 
 ## Creación de la carta R de los datos
 
@@ -125,11 +137,6 @@ viscosidad.raw.r <- matrix(cbind(viscosidad.raw[1:length(viscosidad.raw)-1], vis
 viscosidad.mr <- qcc(viscosidad.raw.r, type="R", plot = TRUE)
 ```
 
-
-```{r}
-viscosidad.mr
-```
-
 # Ejercicio 5.49
 
 ## Creación de las cartas x-barra y R de los datos agregados
@@ -139,14 +146,21 @@ attach(tabla5.48)
 viscosidad.raw <- tabla5.48$viscosidad
 viscosidad.raw <- c(viscosidad.raw, 3163, 3199, 3054, 3147, 3156)
 #' Create the individuals chart and qcc object
-viscosidad.x <- qcc(viscosidad.raw, type = "xbar.one", plot = TRUE)
+viscosidad.x.f2 <- qcc(data = viscosidad.raw, 
+                    type = "xbar.one",
+                    title = "Carta X-bar datos de viscosidad (Fase 2)", 
+                    center = viscosidad.x$center,
+                    limits = viscosidad.x$limits,
+                    std.dev = viscosidad.x$std.dev,
+                    plot = TRUE)
 #' Create the moving range chart and qcc object. qcc takes a two-column matrix
 #' that is used to calculate the moving range.
 viscosidad.raw.r <- matrix(cbind(viscosidad.raw[1:length(viscosidad.raw)-1], viscosidad.raw[2:length(viscosidad.raw)]), ncol=2)
-viscosidad.mr <- qcc(viscosidad.raw.r, type="R", plot = TRUE)
-```
-
-
-```{r}
-viscosidad.mr
+viscosidad.mr.f2 <- qcc(data = viscosidad.raw.r, 
+                     type="R", 
+                     title = "Carta X-bar datos de viscosidad (Fase 2)", 
+                     center = viscosidad.mr$center,
+                     limits = viscosidad.mr$limits,
+                     std.dev = viscosidad.mr$std.dev,
+                     plot = TRUE)
 ```
