@@ -22,6 +22,7 @@ library(tidyverse)
 ## Carta R
 
 ```{r}
+tabla5.13a <- read_excel("/Users/martin/Github/quality_control/Taller_1/dptTACC_230218.xlsx", sheet = "d5.13f1")
 tabla5.13a <- tabla5.13a %>% select(x1,x2,x3,x4,x5)
 r_f1 <- qcc(data = tabla5.13a,
                    type = "R",
@@ -158,7 +159,7 @@ viscosidad.x.f2 <- qcc(data = viscosidad.raw,
 viscosidad.raw.r <- matrix(cbind(viscosidad.raw[1:length(viscosidad.raw)-1], viscosidad.raw[2:length(viscosidad.raw)]), ncol=2)
 viscosidad.mr.f2 <- qcc(data = viscosidad.raw.r, 
                      type="R", 
-                     title = "Carta X-bar datos de viscosidad (Fase 2)", 
+                     title = "Carta R datos de viscosidad (Fase 2)", 
                      center = viscosidad.mr$center,
                      limits = viscosidad.mr$limits,
                      std.dev = viscosidad.mr$std.dev,
