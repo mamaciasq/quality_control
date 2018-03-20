@@ -1,0 +1,68 @@
+# Parámetros del proceso bajo control
+mu0 <- 3
+sigma0 <- 1
+
+# Número de veces que se calcula el RL (m)
+m <- 1000
+# Tamaño de los subgrupos
+n <- 4
+
+# Valores de h y k para la carta CUSUM (página 422 Montgomery 7ma edición)
+h <- 3.34
+k <- 0.75
+
+# Valores de lambda y L para la carta EWMA (página 8 Crowder)
+L <- 2.75
+lambda <- 0.12
+
+# Valores de delta para monitorear los cambios en la media de mu0 a mu1= mu0 + (delta*sigma0)
+delta <- c(0.01,0.02,1.5,2)
+mu1 <- c()
+for(i in 1:length(delta))
+{
+  mu1[i] <- mu0+ (delta[i]*sigma0)
+}
+
+lcxb(mu0=mu0,sigma0=sigma0,n=n)
+# 1.5 4.5
+lcCUSUM(h=h)
+# -3.34  3.34
+lcEWMA(mu0=mu0,L=L,lambda=lambda,sigma0=sigma0)
+# 2.652612 3.347388
+
+cxbd001 <- ARL1cxb(m=m,n=n,mu1=mu1[1],sigma0=sigma0,LCIxb=1.5,LCSxb=4.5)
+cxbd002 <- ARL1cxb(m=m,n=n,mu1=mu1[2],sigma0=sigma0,LCIxb=1.5,LCSxb=4.5)
+cxbd15 <- ARL1cxb(m=m,n=n,mu1=mu1[3],sigma0=sigma0,LCIxb=1.5,LCSxb=4.5)
+cxbd2 <- ARL1cxb(m=m,n=n,mu1=mu1[4],sigma0=sigma0,LCIxb=1.5,LCSxb=4.5)
+
+cCUSUMd001 <- ARL1cCUSUM(m=m,n=n,mu0=mu0,mu1=mu1[1],sigma0=sigma0,k=k,LCICUSUM=-3.34,
+                         LCSCUSUM=3.34)
+cCUSUMd002 <- ARL1cCUSUM(m=m,n=n,mu0=mu0,mu1=mu1[2],sigma0=sigma0,k=k,LCICUSUM=-3.34,
+                         LCSCUSUM=3.34)
+cCUSUMd15 <- ARL1cCUSUM(m=m,n=n,mu0=mu0,mu1=mu1[3],sigma0=sigma0,k=k,LCICUSUM=-3.34,
+                         LCSCUSUM=3.34)
+cCUSUMd2 <- ARL1cCUSUM(m=m,n=n,mu0=mu0,mu1=mu1[4],sigma0=sigma0,k=k,LCICUSUM=-3.34,
+                         LCSCUSUM=3.34)
+
+cEWMAd001 <- ARL1cEWMA(m=m,n=n,mu1=mu1[1],sigma0=sigma0,lambda=lambda,LCIEWMA=2.6526,
+                       LCSEWMA=3.3473)
+cEWMAd002 <- ARL1cEWMA(m=m,n=n,mu1=mu1[2],sigma0=sigma0,lambda=lambda,LCIEWMA=2.6526,
+                       LCSEWMA=3.3473)
+cEWMAd15 <- ARL1cEWMA(m=m,n=n,mu1=mu1[3],sigma0=sigma0,lambda=lambda,LCIEWMA=2.6526,
+                       LCSEWMA=3.3473)
+cEWMAd2 <- ARL1cEWMA(m=m,n=n,mu1=mu1[4],sigma0=sigma0,lambda=lambda,LCIEWMA=2.6526,
+                       LCSEWMA=3.3473)
+
+c(cxbd001,cCUSUMd001,cEWMAd001)
+c(cxbd002,cCUSUMd002,cEWMAd002)
+c(cxbd15,cCUSUMd15,cEWMAd15)
+c(cxbd2,cCUSUMd2,cEWMAd2)
+
+#> c(cxbd001,cCUSUMd001,cEWMAd001)
+#[1] 372.552 354.652 355.411
+#> c(cxbd002,cCUSUMd002,cEWMAd002)
+#[1] 347.089 343.401 366.487
+#> c(cxbd15,cCUSUMd15,cEWMAd15)
+#[1] 1.926 2.096 2.640
+#> c(cxbd2,cCUSUMd2,cEWMAd2)
+#[1] 1.205 1.572 2.066
