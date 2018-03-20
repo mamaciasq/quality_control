@@ -1,9 +1,9 @@
- library(qcc)
+# library(qcc)
 
 ## Carta CRL
 
-p0<-0.02
-ANOS<-30000
+p0<-0.03
+ANOS<-50000
 
 L<-log(1-(1/(p0*ANOS)))/log(1-p0)
 
@@ -11,7 +11,7 @@ L<-log(1-(1/(p0*ANOS)))/log(1-p0)
 
 # GammaB
 
-p1<-0.03074844
+p1<-0.0223634
 r1<--log((1-p1)/(1-p0))
 r2<-log((p1*(1-p0))/(p0*(1-p1)))
 gammaB<-r1/r2
