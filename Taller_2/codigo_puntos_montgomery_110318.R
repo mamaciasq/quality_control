@@ -60,9 +60,8 @@ ccdp86 <- cusum(data=dp84[,2],sizes=1,center=8,
                 se.shift=0.5,head.start=(4.77/2),plot=T,
                 title="Carta CUSUM para monitorear la media del proceso")
 ##### Punto 8.17
-cedp817 <- ewma(data=dp84[,2],sizes=1,center=8.04,
+cedp817 <- ewma(data=dp84[,2],sizes=1,center=8.02,
                 std.dev=0.05,lambda=0.2,
                 nsigmas=3,plot=T,
-                title="Carta EWMA para monitorear
-                la media del proceso")
+                title="Carta EWMA para monitorear la media del proceso")
 #################################################################
